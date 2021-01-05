@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurtleInterpreter : MonoBehaviour
+public class TurtleInterpreter
 {
 
-    public void parse(string text) {
-        Debug.Log("HELLO");
-    }
+        public void parse(string text) {
+            Debug.Log("HELLO");
+            string[] tokens = text.Split(' ');
+
+
+            for (int i = 0; i < tokens.Length; i++) {
+                Debug.Log(tokens[i]);
+            }
+
+        }
 
 }
