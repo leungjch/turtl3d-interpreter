@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class Turtle : MonoBehaviour
 {
     Rigidbody m_Rigidbody;
     float m_Speed;
