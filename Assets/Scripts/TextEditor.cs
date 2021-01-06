@@ -10,11 +10,16 @@ public class TextEditor : MonoBehaviour
 
     TurtleInterpreter interpreter = new TurtleInterpreter();
     // public void Start() {
+
+    //     userText = inputField.GetComponent<Text>().text;
+    //     interpreter.lexer(userText);
+
+
     // }
     // Update is called once per frame
     public void GetUserText()
     {
         userText = inputField.GetComponent<Text>().text;
-        interpreter.parse(userText);
+        interpreter.lexer(userText);
     }
 }
