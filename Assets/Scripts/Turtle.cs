@@ -17,14 +17,14 @@ public class Turtle : MonoBehaviour
 
     void Update()
     {
-        // Rotate Down
+        // Go forwards
         if (Input.GetKey(KeyCode.UpArrow))
         {
             //Move the Rigidbody forwards constantly at speed you define (the blue arrow axis in Scene view)
             m_Rigidbody.position += transform.forward * m_Speed * Time.deltaTime;
         }
 
-        // Rotate Up
+        // Go backwards
         if (Input.GetKey(KeyCode.DownArrow))
         {
             //Move the Rigidbody backwards constantly at the speed you define (the blue arrow axis in Scene view)
@@ -61,6 +61,24 @@ public class Turtle : MonoBehaviour
             transform.Rotate(new Vector3(-1, 0, 0) * Time.deltaTime * m_Speed, Space.World);
         }
 
+    }
+
+    public void goForward(int val)
+    {
+        m_Rigidbody.position += transform.forward * m_Speed * Time.deltaTime * val;
+        Debug.Log("MOVED TURTLE FORWARD");
+    }
+
+
+    public void goBackward(int val)
+    {
+        m_Rigidbody.position -= transform.forward * m_Speed * Time.deltaTime * val;
+        Debug.Log("MOVED TURTLE FORWARD");
+    }
+
+    public void goHome()
+    {
+        m_Rigidbody.transform.position = new Vector3(0, 0, 0);
     }
 
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class AbstractSyntaxTreeNode
 {
-    public static string name; 
-    public static AbstractSyntaxTreeNodeType nodeType; 
+    public string name; 
+    public AbstractSyntaxTreeNodeType type; 
 
 
     public enum AbstractSyntaxTreeNodeType 
@@ -28,19 +28,21 @@ public class AbstractSyntaxTreeNode
     //     public AbstractSyntaxTreeNode right;
     //     public OperatorNode operator; 
     // }
-    public class FunctionArgNode : AbstractSyntaxTreeNode
+
+}
+
+public class FunctionArgNode : AbstractSyntaxTreeNode
+{
+    // Attributes unique to functionArg
+    
+    // Arguments
+    public int arguments;
+    public FunctionArgNode(string mName, int mValue)
     {
-        // Attributes unique to functionArg
-        
-        // Arguments
-        int arguments;
-        public FunctionArgNode(string mName, int mValue)
-        {
-            nodeType = AbstractSyntaxTreeNodeType.FUNCTION_ARG;
-            // Function name
-            name = mName; 
-            // Set arguments
-            arguments = mValue;
-        }
+        type = AbstractSyntaxTreeNodeType.FUNCTION_ARG;
+        // Function name
+        name = mName; 
+        // Set arguments
+        arguments = mValue;
     }
 }

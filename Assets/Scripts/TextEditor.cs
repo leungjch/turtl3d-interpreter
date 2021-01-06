@@ -21,5 +21,7 @@ public class TextEditor : MonoBehaviour
     {
         userText = inputField.GetComponent<Text>().text;
         interpreter.lexer(userText);
+        interpreter.parser();
+        interpreter.eval();
     }
 }

@@ -8,6 +8,11 @@ public class TurtleInterpreter
 {
 
     public List<Token> TokensList = new List<Token>(); 
+    public List<AbstractSyntaxTreeNode> SyntaxTree = new List<AbstractSyntaxTreeNode>(); 
+
+
+    // Eval
+    GameObject Cube;
 
 
     // FOR LEXER
@@ -56,19 +61,6 @@ public class TurtleInterpreter
     };
 
 
-    // FOR PARSER
-    public enum ExpressionType 
-    {
-        MovementExpression
-    }
-
-    // Abstract Syntax Tree structure
-    public class ExpressionTreeNode
-    {
-        public ExpressionType _expressionType;
-        public int _repeat;
-        public List<ExpressionTreeNode> _subexpressions;
-    }
     
     public List<Token> lexer(string text) 
     {
@@ -85,13 +77,11 @@ public class TurtleInterpreter
             // Check the first character.
             // If the first character is alphabetic, then it's a word.
             // Loop until end of word.
-            if (Char.IsLetter(currentChar))
+            if (Char.IsLetter(text[i]))
             {   
-                Char restOfWordChar = text[i];
-                while (Char.IsLetter(restOfWordChar) && i < text.Length)
+                while (i < text.Length && Char.IsLetter(text[i]))
                 {
-                    restOfWordChar = text[i];
-                    tokenLiteral += restOfWordChar;
+                    tokenLiteral += text[i];
                     i += 1;
                 }
 
@@ -105,13 +95,11 @@ public class TurtleInterpreter
 
             // If first character is numeric, then it's a number.
             // Loop until end of number. 
-            else if (Char.IsDigit(currentChar))
+            else if (Char.IsDigit(text[i]))
             {
-                Char restOfNumChar = text[i];
-                while (Char.IsDigit(restOfNumChar) && i < text.Length)
+                while (i < text.Length && Char.IsDigit(text[i]))
                 {
-                    restOfNumChar = text[i];
-                    tokenLiteral += restOfNumChar;
+                    tokenLiteral += text[i];
                     i += 1;
                 }
                 
@@ -146,24 +134,72 @@ public class TurtleInterpreter
             Token currentToken = TokensList[i]; 
             switch (currentToken._tokenType) 
             {
-                // case TokenType.CONSTANT:
-
                 case TokenType.PRIMITIVE:
-                    Token nextToken = TokensList[i+1];
+                    i += 1;
+                    Token nextToken = TokensList[i];
                     expressionList.Add(
-                        new AbstractSyntaxTreeNode.FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
+                        new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
                     );  
+                    break;
+
+                case TokenType.EOF:
                     break;
 
                 default:
                     Debug.Log("Error parsing token");          
                     break;
             }
-
-
-
+            i+=1;
         }
 
+        // Debugging
+        foreach (AbstractSyntaxTreeNode nd in expressionList)
+        {
+            Debug.Log(JsonUtility.ToJson(nd, true));
+            // if (nd is FunctionArgNode fan)
+            // {
+            //     Debug.Log(fan.arguments);
+            // }
+        }
+        SyntaxTree = expressionList;
+    }
 
+    public void eval() 
+    {
+        Turtle turtleScript = GameObject.Find("Cube").GetComponent<Turtle>();
+        turtleScript.goHome(); 
+
+
+        int i = 0;
+        while (i < SyntaxTree.Count)
+        {
+            AbstractSyntaxTreeNode currentNode = SyntaxTree[i];
+            switch (currentNode.type)
+            {
+                case AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.FUNCTION_ARG:
+                    FunctionArgNode funcNode = (FunctionArgNode) currentNode;
+
+                    switch (funcNode.name) 
+                    {
+                        case "fd":
+                            turtleScript.goForward(funcNode.arguments);
+                            break;
+
+                        case "bk":
+                            turtleScript.goBackward(funcNode.arguments);
+                            break;
+                        default:
+                            Debug.Log("Error parsing function arg call node"); 
+                            break;
+                    }
+                    break;
+                
+                default:
+                    Debug.Log("Error parsing node"); 
+                    break;
+            }
+
+            i+=1;
+        }
     }
 }
