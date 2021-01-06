@@ -40,6 +40,8 @@ public class TurtleInterpreter
         MovementExpression
     }
 
+
+    // Abstract Syntax Tree structure
     public class ExpressionTreeNode
     {
         public ExpressionType _expressionType;
@@ -108,6 +110,7 @@ public class TurtleInterpreter
     // Takes TokenList and builds an Abstract Syntax Tree
     public void parser() 
     {
+        expressionList = new List<ExpressionTreeNode>();
         int i = 0;
         while (i < TokensList.Count) 
         {   
@@ -115,11 +118,10 @@ public class TurtleInterpreter
             switch (currentToken) 
             {
                 case TokenType.Word:
-
+                    expressionList.Add(new ExpressionTreeNode(currentToken._tokenType, ))
 
         
                 case TokenType.Number:    
-
 
                 default:
                     Debug.Log("Error parsing token");          
