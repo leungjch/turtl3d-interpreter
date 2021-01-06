@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class TurtleInterpreter
 {
+
+    public List<Token> TokensList = new List<Token>(); 
+
+    // FOR LEXER
     // Enums of possible types of tokens
     public enum TokenType 
     {
@@ -15,6 +19,7 @@ public class TurtleInterpreter
         RParen
     }
 
+    // FOR LEXER
     // Generic token class
     public class Token 
     {
@@ -27,6 +32,19 @@ public class TurtleInterpreter
             _tokenType = tokType;
             _literal = lit;
         }
+    }
+
+    // FOR PARSER
+    public enum ExpressionType 
+    {
+        MovementExpression
+    }
+
+    public class ExpressionTreeNode
+    {
+        public ExpressionType _expressionType;
+        public int _repeat;
+        public List<ExpressionTreeNode> _subexpressions;
     }
     
     public List<Token> lexer(string text) 
@@ -75,21 +93,37 @@ public class TurtleInterpreter
             {
                 i += 1;
             }
-
         }
 
+        // Debugging
         foreach (Token tok in tokensList)
         {
             Debug.Log(tok._literal);
         }
+        TokensList = tokensList; 
         return tokensList;
-
-
     }
 
     // The parser 
-    public void parser(string[] tokens) 
+    // Takes TokenList and builds an Abstract Syntax Tree
+    public void parser() 
     {
+        int i = 0;
+        while (i < TokensList.Count) 
+        {   
+            Token currentToken = TokensList[i]; 
+            switch (currentToken) 
+            {
+                case TokenType.Word:
 
+
+        
+                case TokenType.Number:    
+
+
+                default:
+                    Debug.Log("Error parsing token");          
+            }
+        }
     }
 }
