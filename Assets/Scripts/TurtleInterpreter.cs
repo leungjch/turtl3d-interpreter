@@ -132,14 +132,22 @@ public class TurtleInterpreter
         while (i < TokensList.Count) 
         {   
             Token currentToken = TokensList[i]; 
+
+            Debug.Log("Current token: " + currentToken._literal);
+
+
             switch (currentToken._tokenType) 
             {
                 case TokenType.PRIMITIVE:
-                    i += 1;
-                    Token nextToken = TokensList[i];
-                    expressionList.Add(
-                        new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
-                    );  
+                    if (i+1 < TokensList.Count)
+                    {
+                        i += 1;
+                        Token nextToken = TokensList[i];
+                        expressionList.Add(
+                            new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
+                        );  
+
+                    }
                     break;
 
                 case TokenType.EOF:

@@ -5,21 +5,21 @@ using UnityEngine.UI;
 
 public class TextEditor : MonoBehaviour
 {
+    public GameObject inputGameObject;
     public string userText;
-    public GameObject inputField;
+    public InputField field;
 
     TurtleInterpreter interpreter = new TurtleInterpreter();
     // public void Start() {
-
-    //     userText = inputField.GetComponent<Text>().text;
-    //     interpreter.lexer(userText);
-
-
+    //     iField = iFieldGameObject.GetComponent<InputField>();
     // }
     // Update is called once per frame
     public void GetUserText()
     {
-        userText = inputField.GetComponent<Text>().text;
+        Debug.Log(field.text);
+        userText = field.text;
+        // Debug.Log("DONE");
+
         interpreter.lexer(userText);
         interpreter.parser();
         interpreter.eval();

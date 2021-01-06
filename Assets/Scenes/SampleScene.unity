@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 76872382}
   - component: {fileID: 76872381}
   m_Layer: 5
-  m_Name: InputField
+  m_Name: iField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 563245854}
   - component: {fileID: 563245853}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: iFieldGameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,8 +429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07090db138559e0de960f6612b8bd5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userText: Hello
-  inputField: {fileID: 2140631789}
+  inputt: {fileID: 563245852}
+  userText: Helo
+  field: {fileID: 76872381}
 --- !u!4 &563245854
 Transform:
   m_ObjectHideFlags: 0
