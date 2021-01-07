@@ -275,7 +275,7 @@ public class TurtleInterpreter
         return expressionList;
     }
 
-    public void eval(List<AbstractSyntaxTreeNode> exprList) 
+    public void eval(List<AbstractSyntaxTreeNode> exprList, bool isRepeat = false) 
     {
         SyntaxTree = exprList;
         Debug.Log("Debugging");
@@ -286,7 +286,13 @@ public class TurtleInterpreter
 
         Turtle turtleScript = GameObject.Find("Cube").GetComponent<Turtle>();
         turtleScript.goHome();
-        turtleScript.clearQueue();
+        
+
+        // if we are repeating, don't clear the queue
+        if (!isRepeat)
+        {
+            turtleScript.clearQueue();
+        }
 
         int i = 0;
         while (i < SyntaxTree.Count)
@@ -301,7 +307,7 @@ public class TurtleInterpreter
 
                     for (int REPCOUNT = 0; REPCOUNT < repeatNode.repeatCount; REPCOUNT++)
                     {
-                        eval(repeatNode.inner);
+                        eval(repeatNode.inner, true);
                     }
                     break;
 
