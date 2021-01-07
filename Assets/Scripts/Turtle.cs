@@ -26,12 +26,12 @@ public class Turtle : MonoBehaviour
         //Fetch the Rigidbody component you attach from your GameObject
         m_Rigidbody = GetComponent<Rigidbody>();
         //Set the speed of the GameObject
-        m_Speed = 2; // value between 0 and 100
+        m_Speed = 20; // value between 0 and 100
     }
 
     void Update()
     {
-        Debug.Log("Num commands" + commandQueue.Count);
+        // Debug.Log("Num commands" + commandQueue.Count);
         // Get current command
         if (commandQueue.Count > 0)
         {
@@ -56,7 +56,6 @@ public class Turtle : MonoBehaviour
                     transform.Rotate(new Vector3(1, 0, 0) * -currentCommand.val);
                     progress = 100;
                     break;
-
             }
 
             if (progress >= 100.0f)
@@ -139,7 +138,9 @@ public class Turtle : MonoBehaviour
 
     public void turnLeft(int deg)
     {
-        transform.Rotate(new Vector3(0, -1, 0) * deg);
+        m_Rigidbody.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        // transform.Rotate(new Vector3(0, -1, 0) * deg);
     }
 
     public void turnRight(int deg)
@@ -167,6 +168,7 @@ public class Turtle : MonoBehaviour
     }
     public void clearQueue()
     {
+        goHome();
         commandQueue.Clear();
     }
 

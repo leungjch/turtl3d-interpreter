@@ -9,9 +9,11 @@ public class AbstractSyntaxTreeNode
 
     public enum AbstractSyntaxTreeNodeType 
     {
+        PROGRAM_ROOT,
         EXPRESSION,
         FUNCTION_ARG,
-        FUNCTION_NO_ARG
+        FUNCTION_NO_ARG,
+        REPEAT
     } 
 
 
@@ -31,6 +33,18 @@ public class AbstractSyntaxTreeNode
 
 }
 
+// Root node of the program
+public class ProgramNode : AbstractSyntaxTreeNode
+{
+    public List<AbstractSyntaxTreeNode> code;
+    public ProgramNode()
+    {
+        name = "program";
+        type = AbstractSyntaxTreeNodeType.PROGRAM_ROOT;
+        code = new List<AbstractSyntaxTreeNode>();
+    }
+}
+
 public class FunctionArgNode : AbstractSyntaxTreeNode
 {
     // Attributes unique to functionArg
@@ -46,3 +60,16 @@ public class FunctionArgNode : AbstractSyntaxTreeNode
         arguments = mValue;
     }
 }
+
+public class RepeatNode : AbstractSyntaxTreeNode
+{
+    public int repeatCount;
+    public AbstractSyntaxTreeNode inner;
+
+    public RepeatNode(int m_repeatCount, AbstractSyntaxTreeNode m_inner)
+    {
+        repeatCount = m_repeatCount;
+        inner = m_inner;
+    }
+}
+

@@ -24,7 +24,9 @@ public class TurtleInterpreter
         CONSTANT,   // e.g. the "10" in fd 10, the "1" in x=1. Just numbers.
         L_PAREN,     // [
         R_PAREN,     // ]
+        REPEAT,     // repeat
         EOF         // Always at the end of input
+
     }
 
     // FOR LEXER
@@ -88,9 +90,18 @@ public class TurtleInterpreter
                 // TODO
                 // Add keyword word checking here
                 // For now, assume all words are primitives (fd / bk)
+                switch (tokenLiteral)
+                {
+                    case "repeat":
+                        tokensList.Add(new Token(TokenType.REPEAT, tokenLiteral));
+                        break;
+                    // Else, it's a primitive
+                    default:
+                        tokensList.Add(new Token(TokenType.PRIMITIVE, tokenLiteral));
+                        break;
 
+                }
                 
-                tokensList.Add(new Token(TokenType.PRIMITIVE, tokenLiteral));
             }
 
             // If first character is numeric, then it's a number.
@@ -105,6 +116,18 @@ public class TurtleInterpreter
                 
                 tokensList.Add(new Token(TokenType.CONSTANT, tokenLiteral));
             }
+
+            // Handle parens ("[ ]")
+            else if (text[i] == '[')
+            {
+                tokensList.Add(new Token(TokenType.L_PAREN, tokenLiteral));
+            }
+            else if (text[i] == ']')
+            {
+                tokensList.Add(new Token(TokenType.R_PAREN, tokenLiteral));
+            }
+
+
             else 
             {
                 i += 1;
@@ -147,7 +170,7 @@ public class TurtleInterpreter
                         Token nextToken = TokensList[i];
                         expressionList.Add(
                             new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
-                        );  
+                        );
 
                     }
                     break;
@@ -180,14 +203,25 @@ public class TurtleInterpreter
         turtleScript.goHome();
         turtleScript.clearQueue();
 
-
         int i = 0;
         while (i < SyntaxTree.Count)
         {
             AbstractSyntaxTreeNode currentNode = SyntaxTree[i];
             switch (currentNode.type)
             {
+
+                case AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT:
+
+                    RepeatNode repeatNode = (RepeatNode) currentNode; 
+
+                    // for (int REPCOUNT = 0; REPCOUNT < repeatNode.repeatCount; REPCOUNT++)
+                    // {
+
+                    // }
+                    break;
+
                 case AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.FUNCTION_ARG:
+
                     FunctionArgNode funcNode = (FunctionArgNode) currentNode;
 
                     switch (funcNode.name) 
@@ -210,7 +244,6 @@ public class TurtleInterpreter
                         case "dn":
                             turtleScript.turnDown(funcNode.arguments);
                             break;
-
 
                         default:
                             Debug.Log("Error parsing function arg call node"); 
