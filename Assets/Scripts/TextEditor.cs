@@ -20,8 +20,8 @@ public class TextEditor : MonoBehaviour
         userText = field.text;
         // Debug.Log("DONE");
 
-        interpreter.lexer(userText);
-        interpreter.parser();
-        interpreter.eval();
+        List<TurtleInterpreter.Token> tokenList = interpreter.lexer(userText);
+        List<AbstractSyntaxTreeNode> syntaxTree = interpreter.parser(tokenList);
+        interpreter.eval(syntaxTree);
     }
 }

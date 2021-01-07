@@ -64,10 +64,12 @@ public class FunctionArgNode : AbstractSyntaxTreeNode
 public class RepeatNode : AbstractSyntaxTreeNode
 {
     public int repeatCount;
-    public AbstractSyntaxTreeNode inner;
+    public List<AbstractSyntaxTreeNode> inner;
 
-    public RepeatNode(int m_repeatCount, AbstractSyntaxTreeNode m_inner)
+    public RepeatNode(int m_repeatCount, List<AbstractSyntaxTreeNode> m_inner)
     {
+        name = "repeat";
+        type = AbstractSyntaxTreeNodeType.REPEAT;
         repeatCount = m_repeatCount;
         inner = m_inner;
     }
