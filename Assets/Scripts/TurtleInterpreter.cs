@@ -115,10 +115,12 @@ public class TurtleInterpreter
         tokensList.Add(new Token(TokenType.EOF, "EOF"));
 
         // Debugging
+        string debugLog = "";
         foreach (Token tok in tokensList)
         {
-            Debug.Log(tok._literal + tok._tokenType);
+            debugLog += tok._literal + "  , ";
         }
+        Debug.Log(debugLog);
         TokensList = tokensList; 
         return tokensList;
     }
@@ -139,7 +141,7 @@ public class TurtleInterpreter
             switch (currentToken._tokenType) 
             {
                 case TokenType.PRIMITIVE:
-                    if (i+1 < TokensList.Count)
+                    if (i+1 < TokensList.Count && TokensList[i+1]._tokenType != TokenType.EOF)
                     {
                         i += 1;
                         Token nextToken = TokensList[i];
@@ -175,7 +177,8 @@ public class TurtleInterpreter
     public void eval() 
     {
         Turtle turtleScript = GameObject.Find("Cube").GetComponent<Turtle>();
-        turtleScript.goHome(); 
+        turtleScript.goHome();
+        turtleScript.clearQueue();
 
 
         int i = 0;
@@ -192,10 +195,23 @@ public class TurtleInterpreter
                         case "fd":
                             turtleScript.goForward(funcNode.arguments);
                             break;
-
                         case "bk":
                             turtleScript.goBackward(funcNode.arguments);
                             break;
+                        case "lt":
+                            turtleScript.turnLeft(funcNode.arguments);
+                            break;
+                        case "rt":
+                            turtleScript.turnRight(funcNode.arguments);
+                            break;
+                        case "up":
+                            turtleScript.turnUp(funcNode.arguments);
+                            break;
+                        case "dn":
+                            turtleScript.turnDown(funcNode.arguments);
+                            break;
+
+
                         default:
                             Debug.Log("Error parsing function arg call node"); 
                             break;
@@ -208,6 +224,7 @@ public class TurtleInterpreter
             }
 
             i+=1;
+            
         }
     }
 }
