@@ -26,7 +26,7 @@ public class Turtle : MonoBehaviour
         //Fetch the Rigidbody component you attach from your GameObject
         m_Rigidbody = GetComponent<Rigidbody>();
         //Set the speed of the GameObject
-        m_Speed = 10.0f;
+        m_Speed = 2; // value between 0 and 100
     }
 
     void Update()
@@ -45,8 +45,15 @@ public class Turtle : MonoBehaviour
                 case "fd":
                     m_Rigidbody.position += transform.forward * valueIncrement * m_Speed;
                     break;
+                case "bk":
+                    m_Rigidbody.position -= transform.forward * valueIncrement * m_Speed;
+                    break;
                 case "up":
                     transform.Rotate(new Vector3(1, 0, 0) * currentCommand.val);
+                    progress = 100;
+                    break;
+                case "dn":
+                    transform.Rotate(new Vector3(1, 0, 0) * -currentCommand.val);
                     progress = 100;
                     break;
 
@@ -59,7 +66,7 @@ public class Turtle : MonoBehaviour
             }
             else 
             {
-                progress += 1.0f;
+                progress += m_Speed;
             }
         }
 
