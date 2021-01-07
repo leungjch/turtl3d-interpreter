@@ -335,7 +335,6 @@ public class TurtleInterpreter
                         case "dn":
                             turtleScript.turnDown(funcNode.arguments);
                             break;
-
                         default:
                             Debug.Log("Error parsing function arg call node"); 
                             break;

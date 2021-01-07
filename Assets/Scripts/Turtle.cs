@@ -26,7 +26,7 @@ public class Turtle : MonoBehaviour
         //Fetch the Rigidbody component you attach from your GameObject
         m_Rigidbody = GetComponent<Rigidbody>();
         //Set the speed of the GameObject
-        m_Speed = 20; // value between 0 and 100
+        m_Speed = 80; // value between 0 and 100
     }
 
     void Update()
@@ -39,7 +39,6 @@ public class Turtle : MonoBehaviour
             float valueIncrement = currentCommand.val / 100.0f;
             Debug.Log("Current command" + currentCommand.action + currentCommand.val);
 
-
             switch (currentCommand.action)
             {
                 case "fd":
@@ -48,12 +47,20 @@ public class Turtle : MonoBehaviour
                 case "bk":
                     m_Rigidbody.position -= transform.forward * valueIncrement * m_Speed;
                     break;
-                case "up":
+                case "lt": 
                     transform.Rotate(new Vector3(1, 0, 0) * currentCommand.val);
                     progress = 100;
                     break;
+                case "rt":
+                    transform.Rotate(new Vector3(1, 0, 0) * currentCommand.val);
+                    progress = 100;
+                    break;  
+                case "up":
+                    transform.Rotate(new Vector3(0, 1, 0) * currentCommand.val);
+                    progress = 100;
+                    break;
                 case "dn":
-                    transform.Rotate(new Vector3(1, 0, 0) * -currentCommand.val);
+                    transform.Rotate(new Vector3(0, 1, 0) * -currentCommand.val);
                     progress = 100;
                     break;
             }
@@ -69,13 +76,10 @@ public class Turtle : MonoBehaviour
             }
         }
 
-
-        
-
-        // Go forwards
+        // Keyboard controls (for testing)
+        // // Go forwards
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            goHome();
             //Move the Rigidbody forwards constantly at speed you define (the blue arrow axis in Scene view)
             m_Rigidbody.position += transform.forward * m_Speed * Time.deltaTime;
         }
@@ -91,14 +95,14 @@ public class Turtle : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             //Rotate the sprite about the Y axis in the positive direction
-            transform.Rotate(new Vector3(0, 1, 0) * Time.deltaTime * m_Speed, Space.World);
+            transform.Rotate(new Vector3(1, 0, 0) * Time.deltaTime * m_Speed, Space.World);
         }
 
         // Rotate Left
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             //Rotate the sprite about the Y axis in the negative direction
-            transform.Rotate(new Vector3(0, -1, 0) * Time.deltaTime * m_Speed, Space.World);
+            transform.Rotate(new Vector3(-1, 0, 0) * Time.deltaTime * m_Speed, Space.World);
         }
 
         // Rotate Up
@@ -132,20 +136,20 @@ public class Turtle : MonoBehaviour
 
     public void goBackward(int val)
     {
-        m_Rigidbody.position -= transform.forward * val;
-        Debug.Log("MOVED TURTLE BACKWARD");
+        Command newCommand = new Command("bk", val);
+        commandQueue.Enqueue(newCommand);
     }
 
     public void turnLeft(int deg)
     {
-        m_Rigidbody.transform.rotation = Quaternion.Euler(0, 0, 0);
-
-        // transform.Rotate(new Vector3(0, -1, 0) * deg);
+        Command newCommand = new Command("lt", deg);
+        commandQueue.Enqueue(newCommand);
     }
 
     public void turnRight(int deg)
     {
-        transform.Rotate(new Vector3(0, 1, 0) * deg);
+        Command newCommand = new Command("rt", deg);
+        commandQueue.Enqueue(newCommand);
     }
 
     public void turnUp(int deg)
@@ -157,7 +161,8 @@ public class Turtle : MonoBehaviour
 
     public void turnDown(int deg)
     {
-        transform.Rotate(new Vector3(-1, 0, 0) * deg);
+        Command newCommand = new Command("dn", deg);
+        commandQueue.Enqueue(newCommand);
     }
 
     public void goHome()
