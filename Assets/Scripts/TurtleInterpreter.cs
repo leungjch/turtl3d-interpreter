@@ -217,12 +217,11 @@ public class TurtleInterpreter
                 case TokenType.REPEAT:
                     // Fetch repeat count (repcount)
                     // Handle bracket matching
-                    Debug.Log("REPEATED");
                     if (i+1 < TokensList.Count && TokensList[i+1]._tokenType != TokenType.EOF)
                     {
                         i += 1; // repcount
                         int repCount = Int32.Parse(TokensList[i]._literal);
-                        Debug.Log(repCount);
+                        // Debug.Log(repCount);
                         i += 1; // (
                         // // if == '['
                         if (i < TokensList.Count && TokensList[i]._tokenType == TokenType.L_PAREN )
@@ -231,11 +230,12 @@ public class TurtleInterpreter
                             List<Token> inner = getInner(TokensList, ref i);
                             TurtleInterpreter interpretInner = new TurtleInterpreter();
                             List<AbstractSyntaxTreeNode> innerExp = interpretInner.parser(inner);
-                            Debug.Log("Printing inner node parsed");
-                            foreach (AbstractSyntaxTreeNode nd in innerExp)
-                            {
-                                Debug.Log(JsonUtility.ToJson(nd, true));
-                            }
+                            // Debugging
+                            // Debug.Log("Printing inner node parsed");
+                            // foreach (AbstractSyntaxTreeNode nd in innerExp)
+                            // {
+                            //     Debug.Log(JsonUtility.ToJson(nd, true));
+                            // }
 
                             expressionList.Add(
                                 new RepeatNode(repCount, innerExp)
@@ -255,22 +255,22 @@ public class TurtleInterpreter
         }
         Debug.Log("Printing full expression List");          
         // Debugging
-        foreach (AbstractSyntaxTreeNode nd in expressionList)
-        {
-            Debug.Log(JsonUtility.ToJson(nd, true));
-            if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
-            {
-                Debug.Log("hiya");
+        // foreach (AbstractSyntaxTreeNode nd in expressionList)
+        // {
+        //     Debug.Log(JsonUtility.ToJson(nd, true));
+        //     if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
+        //     {
+        //         Debug.Log("hiya");
 
-                RepeatNode rnd = (RepeatNode) nd;
-                foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
-                {
-                    Debug.Log("hi");
+        //         RepeatNode rnd = (RepeatNode) nd;
+        //         foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
+        //         {
+        //             Debug.Log("hi");
 
-                    Debug.Log(JsonUtility.ToJson(rinner, true));
-                }
-            }
-        }
+        //             Debug.Log(JsonUtility.ToJson(rinner, true));
+        //         }
+        //     }
+        // }
         // SyntaxTree = expressionList;
         return expressionList;
     }
@@ -278,11 +278,11 @@ public class TurtleInterpreter
     public void eval(List<AbstractSyntaxTreeNode> exprList, bool isRepeat = false) 
     {
         SyntaxTree = exprList;
-        Debug.Log("Debugging");
-        foreach (AbstractSyntaxTreeNode nd in SyntaxTree)
-        {
-            Debug.Log(JsonUtility.ToJson(nd, true));
-        }
+        // Debug.Log("Debugging");
+        // foreach (AbstractSyntaxTreeNode nd in SyntaxTree)
+        // {
+        //     Debug.Log(JsonUtility.ToJson(nd, true));
+        // }
 
         Turtle turtleScript = GameObject.Find("Cube").GetComponent<Turtle>();
         turtleScript.goHome();
