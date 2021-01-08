@@ -60,8 +60,8 @@ public class CameraMovement : MonoBehaviour
     if(Input.GetMouseButton(0))
     {
         Vector3 direction = previousPos - cam.ScreenToViewportPoint(Input.mousePosition);
-        cam.transform.Rotate(new Vector3(1, 0 ,0),-direction.y * 180);
-        cam.transform.Rotate(new Vector3(0, 1, 0), direction.x * 180, Space.World );
+        cam.transform.Rotate(new Vector3(1, 0 ,0),direction.y * 180);
+        cam.transform.Rotate(new Vector3(0, 1, 0), -direction.x * 180, Space.World );
 
         previousPos = cam.ScreenToViewportPoint(Input.mousePosition);
     } 

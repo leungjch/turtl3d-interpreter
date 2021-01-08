@@ -169,10 +169,10 @@ public class TurtleInterpreter
             {
                 depth -= 1;
                 // If bracket not well formed, return null
-                if (depth < 0)
-                {
-                    return new List<Token>();
-                }
+                // if (depth == 0)
+                // {
+                //     return inner;
+                // }
             }
 
             if (i < tokensInner.Count)
