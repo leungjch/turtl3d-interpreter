@@ -8,7 +8,7 @@ public class Turtle : MonoBehaviour
     float scale;
     float progress = 0.0f;
     int commandsPerUpdate = 100;
-
+ 
     public Queue<Command> commandQueue = new Queue<Command>();
 
     // Keep track of position history for drawing line

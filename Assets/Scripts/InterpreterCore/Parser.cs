@@ -11,6 +11,12 @@ public class Parser
     // The parser 
     // Takes TokenList and builds an Abstract Syntax Tree
 
+
+    public Parser(int index = 0)
+    {
+        parserIndex = index;
+    }
+
     public Token peekCurrentToken()
     {
         return TokenList[parserIndex];
@@ -114,7 +120,7 @@ public class Parser
                         {
                             parserIndex+=1; // first token inside parens
                             List<Token> inner = getInner(TokenList, ref parserIndex);
-                            Parser interpretInner = new Parser();
+                            Parser interpretInner = new Parser(parserIndex);
                             List<AbstractSyntaxTreeNode> innerExp = interpretInner.runParser(inner);
                             // Debugging
                             // Debug.Log("Printing inner node parsed");
