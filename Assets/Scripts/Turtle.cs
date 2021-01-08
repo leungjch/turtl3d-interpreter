@@ -143,8 +143,6 @@ public class Turtle : MonoBehaviour
             //Rotate the sprite about the Y axis in the negative direction
             transform.Rotate(new Vector3(-1, 0, 0) * Time.deltaTime * scale, Space.World);
         }
-
-
         
 
     }
@@ -196,8 +194,13 @@ public class Turtle : MonoBehaviour
     }
     public void clearQueue()
     {
+
+        // Rest command queue and turtle position
         goHome();
         commandQueue.Clear();
+
+        // Clear line history
+        positionHistory = new List<Vector3>();
     }
 
 }
