@@ -6,15 +6,29 @@ using UnityEngine;
 
 public class TurtleInterpreter
 {
-
+    public string Text; 
     public List<Token> TokensList = new List<Token>(); 
     public List<AbstractSyntaxTreeNode> SyntaxTree = new List<AbstractSyntaxTreeNode>(); 
 
 
+
+    public TurtleInterpreter(string text)
+    {
+        Text = text; 
+        Lexer lexer = new Lexer();
+        Parser parser = new Parser();
+        Eval eval = new Eval();
+    }
+
+    public runInterpreter()
+    {
+        TokensList = lexer.runLexer(text);
+        SyntaxTree = parser.runParser(TokensList); 
+        eval(SyntaxTree); 
+    }
+
     // Eval
     GameObject Cube;
-
-
 
     // FOR LEXER
     // Enums of possible types of tokens
@@ -27,7 +41,6 @@ public class TurtleInterpreter
         R_PAREN,     // ]
         REPEAT,     // repeat keyword
         EOF         // Always at the end of input
-
     }
 
     // FOR LEXER
@@ -62,8 +75,6 @@ public class TurtleInterpreter
         { "fd", PrimitiveType.FORWARD },
         { "bk", PrimitiveType.BACKWARD }
     };
-
-
     
     public List<Token> lexer(string text) 
     {

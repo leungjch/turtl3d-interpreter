@@ -18,10 +18,9 @@ public class TextEditor : MonoBehaviour
     {
         Debug.Log(field.text);
         userText = field.text;
-        // Debug.Log("DONE");
 
-        List<TurtleInterpreter.Token> tokenList = interpreter.lexer(userText);
-        List<AbstractSyntaxTreeNode> syntaxTree = interpreter.parser(tokenList);
-        interpreter.eval(syntaxTree);
+
+        TurtleInterpreter interpreter = new TurtleInterpreter(userText);
+        interpreter.runInterpreter();
     }
 }
