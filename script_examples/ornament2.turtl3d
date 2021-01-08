@@ -1,0 +1,5 @@
+repeat 100 [ 
+
+repeat 8 [ fd 50 up 30] repeat 26 [fd 50 lt 15] 
+
+] 

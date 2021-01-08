@@ -146,7 +146,7 @@ public class TurtleInterpreter
         {
             debugLog += tok._literal + "  , ";
         }
-        Debug.Log(debugLog);
+        // Debug.Log(debugLog);
         return tokensList;
     }
 
@@ -169,10 +169,10 @@ public class TurtleInterpreter
             {
                 depth -= 1;
                 // If bracket not well formed, return null
-                // if (depth == 0)
-                // {
-                //     return inner;
-                // }
+                if (depth <= 0)
+                {
+                    return inner;
+                }
             }
 
             if (i < tokensInner.Count)
@@ -199,7 +199,7 @@ public class TurtleInterpreter
         {   
             Token currentToken = TokensList[i]; 
 
-            Debug.Log("Current token: " + currentToken._literal);
+            // Debug.Log("Current token: " + currentToken._literal);
 
             switch (currentToken._tokenType) 
             {
@@ -264,7 +264,7 @@ public class TurtleInterpreter
             i+=1;
         }
         Debug.Log("Printing full expression List");          
-        // Debugging
+        // // Debugging
         foreach (AbstractSyntaxTreeNode nd in expressionList)
         {
             Debug.Log(JsonUtility.ToJson(nd, true));
@@ -275,8 +275,6 @@ public class TurtleInterpreter
                 RepeatNode rnd = (RepeatNode) nd;
                 foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
                 {
-                    Debug.Log("hi");
-
                     Debug.Log(JsonUtility.ToJson(rinner, true));
                 }
             }
@@ -287,8 +285,7 @@ public class TurtleInterpreter
 
     public void eval(List<AbstractSyntaxTreeNode> exprList, bool isRepeat = false) 
     {
-        SyntaxTree = exprList;
-        // Debug.Log("Debugging syntax tree");
+        // Debug.Log("Debugging syntax tree")
         // foreach (AbstractSyntaxTreeNode nd in SyntaxTree)
         // {
         //     Debug.Log(JsonUtility.ToJson(nd, true));
@@ -304,9 +301,9 @@ public class TurtleInterpreter
         }
 
         int i = 0;
-        while (i < SyntaxTree.Count)
+        while (i < exprList.Count)
         {
-            AbstractSyntaxTreeNode currentNode = SyntaxTree[i];
+            AbstractSyntaxTreeNode currentNode = exprList[i];
             switch (currentNode.type)
             {
 
