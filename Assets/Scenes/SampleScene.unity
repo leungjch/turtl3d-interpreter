@@ -799,8 +799,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 210248054}
+  cam: {fileID: 963194227}
   rotationSpeed: 2
   zoomSpeed: 20
+  rotX: 0
+  rotY: 0
 --- !u!1 &1485162418
 GameObject:
   m_ObjectHideFlags: 0
