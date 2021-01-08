@@ -204,13 +204,18 @@ public class TurtleInterpreter
             {
                 case TokenType.PRIMITIVE:
                     // Fetch next token (numeric argument, e.g. "20" in fd 20)
-                    if (i+1 < TokensList.Count && TokensList[i+1]._tokenType != TokenType.EOF)
+                    // Must be number
+                    if (i+1 < TokensList.Count && TokensList[i+1]._tokenType != TokenType.EOF && TokensList[i+1]._tokenType == TokenType.CONSTANT)
                     {
                         i += 1;
                         Token nextToken = TokensList[i];
                         expressionList.Add(
                             new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
                         );
+                    }
+                    else
+                    {
+                        break;
                     }
                     break;
                 

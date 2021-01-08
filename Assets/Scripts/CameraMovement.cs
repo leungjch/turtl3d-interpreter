@@ -8,7 +8,7 @@ public class CameraMovement : MonoBehaviour
     private Vector3 rotation;
     public Transform target;
     public float rotationSpeed = 2F;
-    public float zoomSpeed = 20F;
+    public float zoomSpeed = 80F;
 
     // Start is called before the first frame update
     void Start()
@@ -25,11 +25,13 @@ public class CameraMovement : MonoBehaviour
         // Same as above, but setting the worldUp parameter to Vector3.left in this example turns the camera on its side
         transform.LookAt(target, Vector3.left);
 
-
+    float distanceCameraTarget = Vector3.Distance(transform.localPosition,target.localPosition);
     // Zoom in and out with scroll wheel
-    if(Input.GetAxis("Mouse ScrollWheel") != 0) {
+    if (Input.GetAxis("Mouse ScrollWheel") != 0 && distanceCameraTarget >= 5) {
     transform.localPosition = Vector3.MoveTowards(transform.localPosition, target.localPosition, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed);
-
+    } else if (distanceCameraTarget <= 5)  // if too close, move back
+    {
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, target.localPosition,  -1);
     }
 
 
@@ -44,8 +46,6 @@ public class CameraMovement : MonoBehaviour
                                      transform.right,
                                      -Input.GetAxis("Mouse Y")*rotationSpeed);
     } 
-
-
 
     }
 }
