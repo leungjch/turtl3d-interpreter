@@ -2,7 +2,7 @@
 Turtl3D is a C# interpreter for a modified version of the Logo programming language with 3D capabilities.
 
 ![screenshot](screenshot.png)
-## Language
+## Language Details
 Logo is a very simple language to learn. A program in Logo is simply a series of commands (keywords) which control the turtle. Logo also provides the `repeat` keyword for repeating a command multiple times, as well as an `if` keyword for conditional statements. The `up` and `dn` keywords are unique in this implementation of Logo as they allow the turtle to traverse in 3D. 
 
 |Keyword|Description|
