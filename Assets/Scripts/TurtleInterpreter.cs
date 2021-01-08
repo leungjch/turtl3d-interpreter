@@ -255,22 +255,22 @@ public class TurtleInterpreter
         }
         Debug.Log("Printing full expression List");          
         // Debugging
-        // foreach (AbstractSyntaxTreeNode nd in expressionList)
-        // {
-        //     Debug.Log(JsonUtility.ToJson(nd, true));
-        //     if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
-        //     {
-        //         Debug.Log("hiya");
+        foreach (AbstractSyntaxTreeNode nd in expressionList)
+        {
+            Debug.Log(JsonUtility.ToJson(nd, true));
+            if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
+            {
+                Debug.Log("hiya");
 
-        //         RepeatNode rnd = (RepeatNode) nd;
-        //         foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
-        //         {
-        //             Debug.Log("hi");
+                RepeatNode rnd = (RepeatNode) nd;
+                foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
+                {
+                    Debug.Log("hi");
 
-        //             Debug.Log(JsonUtility.ToJson(rinner, true));
-        //         }
-        //     }
-        // }
+                    Debug.Log(JsonUtility.ToJson(rinner, true));
+                }
+            }
+        }
         // SyntaxTree = expressionList;
         return expressionList;
     }

@@ -47,7 +47,7 @@ public class Turtle : MonoBehaviour
             {
                 Command currentCommand = commandQueue.Peek();
                 float valueIncrement = currentCommand.val;
-                Debug.Log("Current command" + currentCommand.action + progress);
+                // Debug.Log("Current command" + currentCommand.action + progress);
 
                 Vector3 oldPos = m_Rigidbody.position;
 
