@@ -7,35 +7,7 @@ using UnityEngine;
 public class Lexer
 {
     public string Text; 
-
-    // FOR LEXER
-    // Enums of possible types of tokens
-    public enum TokenType 
-    {
-        PRIMITIVE,
-        IDENTIFIER, // e.g. the "fd" in fd 10, the "x" in x=1. Can be function or variable. 
-        CONSTANT,   // e.g. the "10" in fd 10, the "1" in x=1. Just numbers.
-        L_PAREN,     // [
-        R_PAREN,     // ]
-        REPEAT,     // repeat keyword
-        EOF         // Always at the end of input
-
-    }
-
-    // FOR LEXER
-    // Generic token class
-    public class Token 
-    {
-        public TokenType _tokenType;
-        public string _literal; 
-
-        public Token(TokenType tokType, string lit)
-        {
-            // Had to use underscore because tokenType was already taken
-            _tokenType = tokType;
-            _literal = lit;
-        }
-    }
+    public int lexerIndex;
 
 
     // FOR LEXER
@@ -57,47 +29,41 @@ public class Lexer
 
     public void advanceIndex()
     {
-        index += 1;
+        lexerIndex += 1;
     }
-    public char currentChar()
+    public char peekCurrentChar()
     {
-        return Text[index]; 
+        return Text[lexerIndex];
     }
     public char peekNextChar()
     {
-        if (index+1 < Text.Count)
-        {
-            return Text[index+1];
-        }
+            return Text[lexerIndex+1];
     }
 
     public List<Token> runLexer(string text) 
     {
         // Set text in class
         Text = text; 
-        index = 0;
-
-
+        lexerIndex = 0;
 
         // Start with an empty list of tokens
         List<Token> tokensList = new List<Token>();
 
         // Loop through each character in Text, handle by "word" 
-        int index = 0;
-        while (index < Text.Length)
+        while (lexerIndex < Text.Length)
         {
             // Build up a literal
             String tokenLiteral = "";
-            Char currentChar = Text[index];
+            Char currentChar = peekCurrentChar();
             // Check the first character.
             // If the first character is alphabetic, then it's a word.
             // Loop until end of word.
-            if (Char.IsLetter(Text[index]))
+            if (Char.IsLetter(peekCurrentChar()))
             {   
-                while (index < Text.Length && Char.IsLetter(Text[index]))
+                while (lexerIndex < Text.Length && Char.IsLetter(peekCurrentChar()))
                 {
-                    tokenLiteral += Text[index];
-                    index += 1;
+                    tokenLiteral += peekCurrentChar();
+                    advanceIndex();
                 }
 
                 // TODO
@@ -106,50 +72,48 @@ public class Lexer
                 switch (tokenLiteral)
                 {
                     case "repeat":
-                        tokensList.Add(new Token(TokenType.REPEAT, tokenLiteral));
+                        tokensList.Add(new Token(Token.TokenType.REPEAT, tokenLiteral));
                         break;
                     // Else, it's a primitive
                     default:
-                        tokensList.Add(new Token(TokenType.PRIMITIVE, tokenLiteral));
+                        tokensList.Add(new Token(Token.TokenType.PRIMITIVE, tokenLiteral));
                         break;
-
                 }
-                
             }
 
             // If first character is numeric, then it's a number.
             // Loop until end of number. 
-            else if (Char.IsDigit(Text[index]))
+            else if (Char.IsDigit(peekCurrentChar()))
             {
-                while (index < Text.Length && Char.IsDigit(Text[index]))
+                while (lexerIndex < Text.Length && Char.IsDigit(peekCurrentChar()))
                 {
-                    tokenLiteral += Text[index];
-                    index += 1;
+                    tokenLiteral += peekCurrentChar();
+                    advanceIndex();
                 }
                 
-                tokensList.Add(new Token(TokenType.CONSTANT, tokenLiteral));
+                tokensList.Add(new Token(Token.TokenType.CONSTANT, tokenLiteral));
             }
 
             // Handle parens ("[ ]")
-            else if (Text[index] == '[')
+            else if (peekCurrentChar() == '[')
             {
-                tokensList.Add(new Token(TokenType.L_PAREN, "["));
-                index+= 1;
+                tokensList.Add(new Token(Token.TokenType.L_PAREN, "["));
+                advanceIndex();
             }
-            else if (Text[index] == ']')
+            else if (peekCurrentChar() == ']')
             {
-                tokensList.Add(new Token(TokenType.R_PAREN, "]"));
-                index += 1;
+                tokensList.Add(new Token(Token.TokenType.R_PAREN, "]"));
+                advanceIndex();
             }
 
             else 
             {
-                index += 1;
+                advanceIndex();
             }
         }
 
         // Add EOF token at end
-        tokensList.Add(new Token(TokenType.EOF, "EOF"));
+        tokensList.Add(new Token(Token.TokenType.EOF, "EOF"));
 
         // Debugging
         string debugLog = "";
@@ -157,7 +121,7 @@ public class Lexer
         {
             debugLog += tok._literal + "  , ";
         }
-        // Debug.Log(debugLog);
+        Debug.Log(debugLog);
         return tokensList;
     }
 

@@ -9,7 +9,6 @@ public class TextEditor : MonoBehaviour
     public string userText;
     public InputField field;
 
-    TurtleInterpreter interpreter = new TurtleInterpreter();
     // public void Start() {
     //     iField = iFieldGameObject.GetComponent<InputField>();
     // }
