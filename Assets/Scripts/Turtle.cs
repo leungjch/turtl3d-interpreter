@@ -194,7 +194,6 @@ public class Turtle : MonoBehaviour
     }
     public void clearQueue()
     {
-
         // Rest command queue and turtle position
         goHome();
         commandQueue.Clear();
