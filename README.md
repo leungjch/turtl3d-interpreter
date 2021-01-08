@@ -13,5 +13,5 @@ Logo is a very simple language to learn. A program in Logo is simply a series of
 |`rt NUM`| Right: Rotate turtle right by NUM degrees.|
 |`up NUM`| Up: Rotate turtle upwards (from Z axis, 3D) by NUM degrees.|
 |`dn NUM`| Down: Rotate turtle downwards (from Z axis, 3D) by NUM degrees.|
-|`repeat NUM [ ... ]`| Repeat the commands (enclosed in the square brackets `[...]`) by NUM number of times.|
+|`repeat NUM [...]`| Repeat the commands (enclosed in the square brackets `[...]`) by NUM number of times.|
 
