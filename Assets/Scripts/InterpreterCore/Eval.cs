@@ -12,6 +12,7 @@ public class Eval
     Turtle turtleScript;
     int evalIndex;
     List<AbstractSyntaxTreeNode> SyntaxTree = new List<AbstractSyntaxTreeNode>();
+    int MAX_RECURSIONS = 500;
 
     // State
     Dictionary<string, List<AbstractSyntaxTreeNode>> FunctionDefinitionLookup = new Dictionary<string, List<AbstractSyntaxTreeNode>>();
@@ -49,17 +50,17 @@ public class Eval
     }
     
 
-    public void runEval(List<AbstractSyntaxTreeNode> syntaxTree, bool isRepeat = false, int repCount = 0) 
+    public void runEval(List<AbstractSyntaxTreeNode> syntaxTree, bool isRepeat = false, int repCount = 0, int recursionCount = 0) 
     {
 
         evalIndex = 0;
         SyntaxTree = syntaxTree;
 
-        Debug.Log("Debugging syntax tree with index" + isRepeat + " Repcount is" + repCount);
-        foreach (AbstractSyntaxTreeNode nd in syntaxTree)
-        {
-            Debug.Log(JsonUtility.ToJson(nd, true));
-        }
+        // Debug.Log("Debugging syntax tree with index" + isRepeat + " Repcount is" + repCount);
+        // foreach (AbstractSyntaxTreeNode nd in syntaxTree)
+        // {
+        //     Debug.Log(JsonUtility.ToJson(nd, true));
+        // }
 
         // if we are repeating, don't clear the queue
         if (!isRepeat)
@@ -92,7 +93,7 @@ public class Eval
                     for (int REPCOUNT = 0; REPCOUNT < repeatNode.repeatCount; REPCOUNT++)
                     {
                         Eval evalInner = new Eval(FunctionDefinitionLookup, VariableLookup);
-                        evalInner.runEval(repeatNode.inner, isRepeat = true, repCount = REPCOUNT);
+                        evalInner.runEval(repeatNode.inner, isRepeat = true, repCount = REPCOUNT, recursionCount = recursionCount);
                     }
                     break;
 
@@ -102,16 +103,15 @@ public class Eval
                     FunctionNoArgNode funcNoArgNode = (FunctionNoArgNode) currentNode;
                     
                     string funcNoArgName = funcNoArgNode.name;
-                        Debug.Log("FOUND FUNC" + funcNoArgName);
+                        // Debug.Log("FOUND FUNC" + funcNoArgName);
 
                     // Check if function name is a user-defined function
-                    if (FunctionDefinitionLookup.ContainsKey(funcNoArgName))
+                    if (FunctionDefinitionLookup.ContainsKey(funcNoArgName) && recursionCount < MAX_RECURSIONS)
                     {
-                        Debug.Log("FOUND FUNC" + funcNoArgName);
+                        // Debug.Log("FOUND FUNC" + funcNoArgName);
                         List<AbstractSyntaxTreeNode> funcNoArgDefn = FunctionDefinitionLookup[funcNoArgName];
                         Eval evalFunc = new Eval(FunctionDefinitionLookup, VariableLookup);
-                        evalFunc.runEval(funcNoArgDefn, isRepeat = true, repCount);
-
+                        evalFunc.runEval(funcNoArgDefn, isRepeat = true, repCount, recursionCount + 1);
                     }
 
                     break;

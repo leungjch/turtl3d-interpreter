@@ -81,7 +81,7 @@ public class Parser
         List<Token> functionDefinition = new List<Token>();
         while (parserIndex < tokensInner.Count)
         {
-            Debug.Log("PARSERINDEX" + parserIndex);
+            // Debug.Log("PARSERINDEX" + parserIndex);
 
 
             if (tokensInner[parserIndex]._tokenType == Token.TokenType.END)
@@ -119,13 +119,13 @@ public class Parser
                     advanceIndex();
                     List<Token> functionDef = getFunctionDefinition(TokenList, ref parserIndex);
 
-                    // Debugging
-                    Debug.Log("Printing function definition parsed");
-                    foreach (Token tok in functionDef)
-                    {
-                        Debug.Log(JsonUtility.ToJson(tok, true));
-                    }
-                    Debug.Log("Done function definition parsed");
+                    // // Debugging
+                    // Debug.Log("Printing function definition parsed");
+                    // foreach (Token tok in functionDef)
+                    // {
+                    //     Debug.Log(JsonUtility.ToJson(tok, true));
+                    // }
+                    // Debug.Log("Done function definition parsed");
 
 
                     Parser interpretFunctionDef = new Parser(parserIndex);
@@ -224,23 +224,23 @@ public class Parser
             }
             advanceIndex();
         }
-        Debug.Log("Printing full expression List");          
-        // Debugging
-        foreach (AbstractSyntaxTreeNode nd in expressionList)
-        {
-            Debug.Log(JsonUtility.ToJson(nd, true));
-            if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
-            {
-                Debug.Log("inner Node is");
+        // Debug.Log("Printing full expression List");          
+        // // Debugging
+        // foreach (AbstractSyntaxTreeNode nd in expressionList)
+        // {
+        //     Debug.Log(JsonUtility.ToJson(nd, true));
+        //     if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
+        //     {
+        //         Debug.Log("inner Node is");
 
-                RepeatNode rnd = (RepeatNode) nd;
-                foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
-                {
-                    Debug.Log(JsonUtility.ToJson(rinner, true));
-                }
-            }
-        }
-        Debug.Log("Done printing full expression List");          
+        //         RepeatNode rnd = (RepeatNode) nd;
+        //         foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
+        //         {
+        //             Debug.Log(JsonUtility.ToJson(rinner, true));
+        //         }
+        //     }
+        // }
+        // Debug.Log("Done printing full expression List");          
 
         // SyntaxTree = expressionList;
         return expressionList;
