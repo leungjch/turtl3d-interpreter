@@ -117,7 +117,26 @@ public class Lexer
                 tokensList.Add(new Token(Token.TokenType.R_PAREN, "]"));
                 advanceIndex();
             }
-
+            else if (peekCurrentChar() == '+')
+            {
+                tokensList.Add(new Token(Token.TokenType.ADD, "+"));
+                advanceIndex();
+            }
+            else if (peekCurrentChar() == '-')
+            {
+                tokensList.Add(new Token(Token.TokenType.SUB, "-"));
+                advanceIndex();
+            }
+            else if (peekCurrentChar() == '*')
+            {
+                tokensList.Add(new Token(Token.TokenType.MUL, "*"));
+                advanceIndex();
+            }
+            else if (peekCurrentChar() == '/')
+            {
+                tokensList.Add(new Token(Token.TokenType.DIV, "/"));
+                advanceIndex();
+            }
             else 
             {
                 advanceIndex();

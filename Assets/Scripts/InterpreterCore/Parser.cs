@@ -17,14 +17,30 @@ public class Parser
         parserIndex = index;
     }
 
+
+    public void advanceIndex()
+    {
+        parserIndex += 1;
+    }
+
     public Token peekCurrentToken()
     {
         return TokenList[parserIndex];
     }
 
-    public void advanceIndex()
+
+    public Token peekPrevToken()
     {
-        parserIndex += 1;
+
+        if (parserIndex-1 > 0)
+        {
+            return TokenList[parserIndex-1];
+        }
+        else 
+        {
+            return new Token(Token.TokenType.EOF, "EOF");
+        }    
+        
     }
 
     public Token peekNextToken()

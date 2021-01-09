@@ -15,7 +15,12 @@
             REPCOUNT,   // repcount keyword
             TO,         // function declaration (start)
             END,        // function declaration (end)
+            ADD,        // addition
+            SUB,        // subtraction
+            MUL,        // multiplication
+            DIV,        // division
             EOF         // Always at the end of input
+
         }
 
         public TokenType _tokenType;

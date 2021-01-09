@@ -14,6 +14,7 @@ public class AbstractSyntaxTreeNode
         FUNCTION_DEFINITION,
         FUNCTION_ARG,
         FUNCTION_NO_ARG,
+        BINARY_OPERATION,
         REPEAT,
         REPCOUNT,
     } 
@@ -89,6 +90,9 @@ public class FunctionNoArgNode : AbstractSyntaxTreeNode
         name = mName; 
     }
 
+
+
+
 }
 
 
@@ -112,5 +116,20 @@ public class RepcountNode : AbstractSyntaxTreeNode
     {
         name = "repcount";
         type = AbstractSyntaxTreeNodeType.REPCOUNT;
+    }
+}
+
+
+// A binary operation is [LEFT] [OP] [RIGHT], like 2 + 2
+public class BinaryOperationNode : AbstractSyntaxTreeNode
+{
+    AbstractSyntaxTreeNode left;    // contents of left side
+    AbstractSyntaxTreeNode right;   // contents of right side
+    string operation;               // "+", "-", "/", "*"
+    public BinaryOperationNode(AbstractSyntaxTreeNode lt, AbstractSyntaxTreeNode rt, string op)
+    {
+        left = lt;
+        operation = op;
+        right = rt;
     }
 }
