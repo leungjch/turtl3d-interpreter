@@ -1,5 +1,5 @@
 # Turtl3D | Experimental 3D Logo Interpreter
-Turtl3D is a C# interpreter for a modified version of the Logo programming language with 3D capabilities.
+Turtl3D is an interpreter (written in C#) for a modified version of the Logo programming language with 3D capabilities.
 
 ![screenshot](screenshot.png)
 ## Language Details
