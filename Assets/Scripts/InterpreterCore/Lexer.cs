@@ -72,7 +72,10 @@ public class Lexer
                 switch (tokenLiteral)
                 {
                     case "repeat":
-                        tokensList.Add(new Token(Token.TokenType.REPEAT, tokenLiteral));
+                        tokensList.Add(new Token(Token.TokenType.REPEAT, "repeat"));
+                        break;
+                    case "repcount":
+                        tokensList.Add(new Token(Token.TokenType.REPCOUNT, "repcount"));
                         break;
                     // Else, it's a primitive
                     default:
@@ -90,7 +93,6 @@ public class Lexer
                     tokenLiteral += peekCurrentChar();
                     advanceIndex();
                 }
-                
                 tokensList.Add(new Token(Token.TokenType.CONSTANT, tokenLiteral));
             }
 

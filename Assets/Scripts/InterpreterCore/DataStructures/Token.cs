@@ -12,8 +12,8 @@
             L_PAREN,     // [
             R_PAREN,     // ]
             REPEAT,     // repeat keyword
+            REPCOUNT,   // repcount keyword
             EOF         // Always at the end of input
-
         }
 
         public TokenType _tokenType;

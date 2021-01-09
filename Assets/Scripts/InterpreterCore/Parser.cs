@@ -87,22 +87,43 @@ public class Parser
                 case Token.TokenType.PRIMITIVE:
                     // Fetch next token (numeric argument, e.g. "20" in fd 20)
                     // Must be number
-                    if (parserIndex+1 < TokenList.Count && peekNextToken()._tokenType != Token.TokenType.EOF && peekNextToken()._tokenType == Token.TokenType.CONSTANT)
+                    if (parserIndex+1 < TokenList.Count 
+                        && peekNextToken()._tokenType != Token.TokenType.EOF 
+                        && (peekNextToken()._tokenType == Token.TokenType.CONSTANT) || (peekNextToken()._tokenType == Token.TokenType.REPCOUNT)
+                        ) 
                     {
                         Debug.Log("parserIndex: " + parserIndex);
 
                         Token nextToken = peekNextToken();
                         advanceIndex(); 
 
-                        expressionList.Add(
-                            new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal))
-                        );
+                        switch (nextToken._tokenType)
+                        {
+                            case Token.TokenType.CONSTANT:
+                                expressionList.Add(
+                                    new FunctionArgNode(currentToken._literal, Int32.Parse(nextToken._literal), false)
+                                );
+                                break;
+
+                            case Token.TokenType.REPCOUNT:
+                                expressionList.Add(
+                                    new FunctionArgNode(currentToken._literal, 0, true)
+                                );
+                                break;
+                        }
+
                     }
                     else
                     {
                         break;
                     }
                     break;
+
+                // Repcount (in repeat)
+                case Token.TokenType.REPCOUNT:
+                        expressionList.Add(new RepcountNode());
+                        break;
+
                 
                 case Token.TokenType.REPEAT:
                     // Fetch repeat count (repcount)

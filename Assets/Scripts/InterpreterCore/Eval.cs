@@ -38,7 +38,7 @@ public class Eval
     }
     
 
-    public void runEval(List<AbstractSyntaxTreeNode> syntaxTree, bool isRepeat = false) 
+    public void runEval(List<AbstractSyntaxTreeNode> syntaxTree, bool isRepeat = false, int repCount = 0) 
     {
 
         evalIndex = 0;
@@ -68,33 +68,42 @@ public class Eval
                     for (int REPCOUNT = 0; REPCOUNT < repeatNode.repeatCount; REPCOUNT++)
                     {
                         Eval evalInner = new Eval();
-                        evalInner.runEval(repeatNode.inner, isRepeat = true);
+                        evalInner.runEval(repeatNode.inner, isRepeat = true, repCount = REPCOUNT);
                     }
                     break;
 
                 case AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.FUNCTION_ARG:
 
                     FunctionArgNode funcNode = (FunctionArgNode) currentNode;
+                    int args; 
+                    if (funcNode.isRepcount)
+                    {
+                        args = repCount;
+                    }
+                    else
+                    {
+                        args = funcNode.arguments;
+                    }
 
                     switch (funcNode.name) 
                     {
                         case "fd":
-                            turtleScript.goForward(funcNode.arguments);
+                            turtleScript.goForward(args);
                             break;
                         case "bk":
-                            turtleScript.goBackward(funcNode.arguments);
+                            turtleScript.goBackward(args);
                             break;
                         case "lt":
-                            turtleScript.turnLeft(funcNode.arguments);
+                            turtleScript.turnLeft(args);
                             break;
                         case "rt":
-                            turtleScript.turnRight(funcNode.arguments);
+                            turtleScript.turnRight(args);
                             break;
                         case "up":
-                            turtleScript.turnUp(funcNode.arguments);
+                            turtleScript.turnUp(args);
                             break;
                         case "dn":
-                            turtleScript.turnDown(funcNode.arguments);
+                            turtleScript.turnDown(args);
                             break;
                         default:
                             Debug.Log("Error parsing function arg call node"); 

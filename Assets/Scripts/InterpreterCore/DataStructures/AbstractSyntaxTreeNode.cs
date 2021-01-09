@@ -13,7 +13,8 @@ public class AbstractSyntaxTreeNode
         EXPRESSION,
         FUNCTION_ARG,
         FUNCTION_NO_ARG,
-        REPEAT
+        REPEAT,
+        REPCOUNT,
     } 
 
 
@@ -51,15 +52,19 @@ public class FunctionArgNode : AbstractSyntaxTreeNode
     
     // Arguments
     public int arguments;
-    public FunctionArgNode(string mName, int mValue)
+    public bool isRepcount = false;
+    public FunctionArgNode(string mName, int mValue, bool mIsRepCount = false)
     {
         type = AbstractSyntaxTreeNodeType.FUNCTION_ARG;
         // Function name
         name = mName; 
         // Set arguments
         arguments = mValue;
+        isRepcount = mIsRepCount;
     }
+
 }
+
 
 public class RepeatNode : AbstractSyntaxTreeNode
 {
@@ -75,3 +80,11 @@ public class RepeatNode : AbstractSyntaxTreeNode
     }
 }
 
+public class RepcountNode : AbstractSyntaxTreeNode
+{
+    public RepcountNode()
+    {
+        name = "repcount";
+        type = AbstractSyntaxTreeNodeType.REPCOUNT;
+    }
+}
