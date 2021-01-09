@@ -11,6 +11,7 @@ public class AbstractSyntaxTreeNode
     {
         PROGRAM_ROOT,
         EXPRESSION,
+        FUNCTION_DEFINITION,
         FUNCTION_ARG,
         FUNCTION_NO_ARG,
         REPEAT,
@@ -46,6 +47,18 @@ public class ProgramNode : AbstractSyntaxTreeNode
     }
 }
 
+public class FunctionDefinitionNode : AbstractSyntaxTreeNode
+{
+    public List<AbstractSyntaxTreeNode> definition;
+
+    public FunctionDefinitionNode(string mName, List<AbstractSyntaxTreeNode> mDefinition)
+    {
+        name = mName; // name of the custom function
+        type = AbstractSyntaxTreeNodeType.FUNCTION_DEFINITION;
+        definition = mDefinition;
+    }
+}
+
 public class FunctionArgNode : AbstractSyntaxTreeNode
 {
     // Attributes unique to functionArg
@@ -61,6 +74,19 @@ public class FunctionArgNode : AbstractSyntaxTreeNode
         // Set arguments
         arguments = mValue;
         isRepcount = mIsRepCount;
+    }
+
+}
+
+// Call a function with no args
+public class FunctionNoArgNode : AbstractSyntaxTreeNode
+{
+    // Attributes unique to functionArg
+    
+    public FunctionNoArgNode(string mName)
+    {
+        type = AbstractSyntaxTreeNodeType.FUNCTION_NO_ARG;
+        name = mName; 
     }
 
 }

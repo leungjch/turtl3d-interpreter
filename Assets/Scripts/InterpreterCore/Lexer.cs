@@ -66,17 +66,27 @@ public class Lexer
                     advanceIndex();
                 }
 
-                // TODO
-                // Add keyword word checking here
-                // For now, assume all words are primitives (fd / bk)
+                // Perform keyword checking
                 switch (tokenLiteral)
                 {
+                    // Repeat statement
                     case "repeat":
                         tokensList.Add(new Token(Token.TokenType.REPEAT, "repeat"));
                         break;
+                    // Repcount
                     case "repcount":
                         tokensList.Add(new Token(Token.TokenType.REPCOUNT, "repcount"));
                         break;
+                    // Function declaration, begin
+                    case "TO":
+                        tokensList.Add(new Token(Token.TokenType.TO, "TO"));
+                        break;
+
+                    // Function declaration, end
+                    case "END":
+                        tokensList.Add(new Token(Token.TokenType.END, "END"));
+                        break;
+
                     // Else, it's a primitive
                     default:
                         tokensList.Add(new Token(Token.TokenType.PRIMITIVE, tokenLiteral));

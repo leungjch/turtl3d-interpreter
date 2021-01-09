@@ -11,7 +11,7 @@ public class Parser
     // The parser 
     // Takes TokenList and builds an Abstract Syntax Tree
 
-
+    // Alternate constructor to start parser at a specific point in token list
     public Parser(int index = 0)
     {
         parserIndex = index;
@@ -29,10 +29,14 @@ public class Parser
 
     public Token peekNextToken()
     {
-        // if (parserIndex+1 < TokenList.Count)
-        // {
+        if (parserIndex+1 < TokenList.Count)
+        {
             return TokenList[parserIndex+1];
-        // }
+        }
+        else 
+        {
+            return new Token(Token.TokenType.EOF, "EOF");
+        }
     }
     // Bracket matching algorithm
     public List<Token> getInner(List<Token> tokensInner, ref int parserIndex)
@@ -70,6 +74,29 @@ public class Parser
         return inner;
     }
 
+    // Get function definition
+    // Get all tokens until EN
+    List<Token> getFunctionDefinition(List<Token> tokensInner, ref int parserIndex)
+    {
+        List<Token> functionDefinition = new List<Token>();
+        while (parserIndex < tokensInner.Count)
+        {
+            Debug.Log("PARSERINDEX" + parserIndex);
+
+
+            if (tokensInner[parserIndex]._tokenType == Token.TokenType.END)
+            {
+                return functionDefinition;
+            }
+            else 
+            {
+                functionDefinition.Add(tokensInner[parserIndex]);
+                parserIndex += 1;
+            }
+        }
+        return functionDefinition;
+    }
+
     public List<AbstractSyntaxTreeNode> runParser(List<Token> tokens) 
     {
         TokenList = tokens;
@@ -84,7 +111,34 @@ public class Parser
 
             switch (currentToken._tokenType) 
             {
+                // If we see a function declaration, scan rest of tokens until we hit END
+                // Parse the inner expression as well
+                case Token.TokenType.TO:
+                    advanceIndex(); 
+                    string functionName = peekCurrentToken()._literal;
+                    advanceIndex();
+                    List<Token> functionDef = getFunctionDefinition(TokenList, ref parserIndex);
+
+                    // Debugging
+                    Debug.Log("Printing function definition parsed");
+                    foreach (Token tok in functionDef)
+                    {
+                        Debug.Log(JsonUtility.ToJson(tok, true));
+                    }
+                    Debug.Log("Done function definition parsed");
+
+
+                    Parser interpretFunctionDef = new Parser(parserIndex);
+                    List<AbstractSyntaxTreeNode> functionDefExp = interpretFunctionDef.runParser(functionDef);
+
+                    expressionList.Add(
+                        new FunctionDefinitionNode(functionName, functionDefExp)
+                    );
+                    break;
+
+
                 case Token.TokenType.PRIMITIVE:
+                    // First, check if primitive is supplied with argument
                     // Fetch next token (numeric argument, e.g. "20" in fd 20)
                     // Must be number
                     if (parserIndex+1 < TokenList.Count 
@@ -113,9 +167,10 @@ public class Parser
                         }
 
                     }
+                    // Otherwise it is a primitive with no arguments
                     else
                     {
-                        break;
+                        expressionList.Add(new FunctionNoArgNode(currentToken._literal));
                     }
                     break;
 
@@ -123,7 +178,6 @@ public class Parser
                 case Token.TokenType.REPCOUNT:
                         expressionList.Add(new RepcountNode());
                         break;
-
                 
                 case Token.TokenType.REPEAT:
                     // Fetch repeat count (repcount)
@@ -139,7 +193,7 @@ public class Parser
                         // // if == '['
                         if (parserIndex < TokenList.Count && peekCurrentToken()._tokenType == Token.TokenType.L_PAREN )
                         {
-                            parserIndex+=1; // first token inside parens
+                            advanceIndex(); // first token inside parens
                             List<Token> inner = getInner(TokenList, ref parserIndex);
                             Parser interpretInner = new Parser(parserIndex);
                             List<AbstractSyntaxTreeNode> innerExp = interpretInner.runParser(inner);
@@ -171,21 +225,23 @@ public class Parser
             advanceIndex();
         }
         Debug.Log("Printing full expression List");          
-        // // Debugging
-        // foreach (AbstractSyntaxTreeNode nd in expressionList)
-        // {
-        //     Debug.Log(JsonUtility.ToJson(nd, true));
-        //     if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
-        //     {
-        //         Debug.Log("inner Node is");
+        // Debugging
+        foreach (AbstractSyntaxTreeNode nd in expressionList)
+        {
+            Debug.Log(JsonUtility.ToJson(nd, true));
+            if (nd.type == AbstractSyntaxTreeNode.AbstractSyntaxTreeNodeType.REPEAT)
+            {
+                Debug.Log("inner Node is");
 
-        //         RepeatNode rnd = (RepeatNode) nd;
-        //         foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
-        //         {
-        //             Debug.Log(JsonUtility.ToJson(rinner, true));
-        //         }
-        //     }
-        // }
+                RepeatNode rnd = (RepeatNode) nd;
+                foreach (AbstractSyntaxTreeNode rinner in rnd.inner)
+                {
+                    Debug.Log(JsonUtility.ToJson(rinner, true));
+                }
+            }
+        }
+        Debug.Log("Done printing full expression List");          
+
         // SyntaxTree = expressionList;
         return expressionList;
     }

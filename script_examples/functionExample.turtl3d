@@ -1,0 +1,6 @@
+TO myfunc
+fd 10 rt 90
+END
+
+repeat 5 [ myfunc ]
+

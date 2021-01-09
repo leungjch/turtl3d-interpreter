@@ -18,7 +18,6 @@ public class TextEditor : MonoBehaviour
         Debug.Log(field.text);
         userText = field.text;
 
-
         TurtleInterpreter interpreter = new TurtleInterpreter(userText);
         interpreter.runInterpreter();
     }
